@@ -11,6 +11,9 @@ Plug 'shougo/echodoc'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'raimondi/delimitmate'
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'ervandew/supertab'
+Plug 'easymotion/vim-easymotion'
+Plug 'yggdroot/indentline'
 call plug#end()
 
 let mapleader=","
@@ -205,3 +208,9 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+
+
+"IndentLine
+let g:indentLine_enabled = 1
+let g:indentLine_showFirstIndentLevel = 1   "显示对齐线首字符
+let g:indentLine_color_term = 239            "设置对齐线颜色
