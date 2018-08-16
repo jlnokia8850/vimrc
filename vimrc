@@ -8,6 +8,9 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'vim-scripts/winmanager'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'shougo/echodoc'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'raimondi/delimitmate'
+Plug 'kien/rainbow_parentheses.vim'
 call plug#end()
 
 let mapleader=","
@@ -59,6 +62,8 @@ set expandtab
 "set smartindent 
 "set smarttab
 
+autocmd BufRead *.cc,*.cpp,*.c,*.h exec "call feedkeys('\<C-n>\<F8>\<C-w>\<C-w>\<C-w>\<C-w>')" 
+autocmd BufNewFile *.cc,*.cpp,*.c,*.h exec "call feedkeys('\<C-n>\<F8>\<C-w>\<C-w>\<C-w>\<C-w>')" 
 autocmd BufNewFile *.cc,*.cpp,*.c,*.h exec ":call SetTitleC()"  
 "新建.cc,.cpp,.c,  
 "定义函数SetTitle，自动插入文件头  
@@ -75,8 +80,8 @@ func SetTitleC()
     if expand("%:e") == 'c'  
 		call setline(10,"#include <stdio.h>")  
 		call setline(11,"int main(int argc, char ** argv) {")  
-		call setline(12,"")  
-		call setline(13,"  return 0;")  
+		call setline(12,"    ")  
+		call setline(13,"    return 0;")  
 		call setline(14,"}")  
 	elseif expand("%:e") == 'h' 
 		call setline(10, "#pragma once") 
@@ -84,8 +89,8 @@ func SetTitleC()
     elseif (expand("%:e") == 'cpp') || (expand("%:e") == 'cc')  
 		call setline(10,"#include <iostream>")  
 		call setline(11,"int main(int argc, char ** argv) {")  
-		call setline(12,"")  
-		call setline(13,"  return 0;")  
+		call setline(12,"    ")  
+		call setline(13,"    return 0;")  
 		call setline(14,"}")  
     endif  
 endfunc  
@@ -127,7 +132,7 @@ let g:ale_lint_on_text_changed = 'never'
 ""打开文件时不进行检查
 let g:ale_lint_on_enter = 0
 "<Leader>s触发/关闭语法检查
-nmap <Leader>s :ALEToggle<CR>
+nmap <Leader>ale :ALEToggle<CR>
 "<Leader>d查看错误或警告的详细信息
 nmap <Leader>d :ALEDetail<CR>
 "let g:ale_sign_error = "\ue009\ue009"
@@ -163,3 +168,40 @@ let g:tagbar_vertical = 15
 " To use echodoc, you must increase 'cmdheight' value.
 set cmdheight=2
 let g:echodoc_enable_at_startup = 1
+
+" CScope
+nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>a :cs add cscope.out<cr>
+
+"RAINBOW PARENTHESES
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
